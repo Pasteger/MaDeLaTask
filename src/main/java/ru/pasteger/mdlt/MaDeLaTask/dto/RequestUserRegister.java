@@ -17,14 +17,6 @@ public class RequestUserRegister {
         return userEntity;
     }
 
-    public static RequestUserRegister toDTO(UserEntity userEntity){
-        RequestUserRegister requestUserRegister = new RequestUserRegister();
-        requestUserRegister.setLogin(userEntity.getLogin());
-        requestUserRegister.setPassword(userEntity.getPassword());
-        requestUserRegister.setName(userEntity.getFirstName());
-        return requestUserRegister;
-    }
-
     public String getLogin() {
         return login;
     }
