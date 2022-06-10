@@ -26,6 +26,10 @@ public class RequestOrganizationSave {
         return organizationEntity;
     }
 
+    public Boolean checkNull(){
+        return (name == null || fullName == null || inn == null || kpp == null || address == null || phone == null);
+    }
+
     public String getName() {
         return name;
     }

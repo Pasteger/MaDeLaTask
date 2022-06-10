@@ -2,7 +2,6 @@ package ru.pasteger.mdlt.MaDeLaTask.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.pasteger.mdlt.MaDeLaTask.dto.RequestOrganizationSave;
 import ru.pasteger.mdlt.MaDeLaTask.dto.RequestUserLogin;
 import ru.pasteger.mdlt.MaDeLaTask.dto.RequestUserRegister;
 import ru.pasteger.mdlt.MaDeLaTask.exception.*;
@@ -38,19 +37,6 @@ public class ApiController {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }
         catch (Exception exception){
-            return ResponseEntity.badRequest().body("Unknown exception");
-        }
-    }
-
-    @PostMapping("/organization/save")
-    public ResponseEntity<?> saveOrganization(@RequestBody RequestOrganizationSave organization){
-        try {
-            apiService.saveOrganization(organization);
-            return ResponseEntity.ok().body("success");
-        }
-        catch (NotAllFieldsAreFilledInException | OrganizationAlreadyExistException exception){
-            return ResponseEntity.badRequest().body(exception.getMessage());
-        } catch (Exception exception){
             return ResponseEntity.badRequest().body("Unknown exception");
         }
     }
