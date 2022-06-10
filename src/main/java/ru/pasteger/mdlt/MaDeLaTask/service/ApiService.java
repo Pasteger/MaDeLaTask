@@ -3,15 +3,12 @@ package ru.pasteger.mdlt.MaDeLaTask.service;
 import org.springframework.stereotype.Service;
 import ru.pasteger.mdlt.MaDeLaTask.dto.RequestUserLogin;
 import ru.pasteger.mdlt.MaDeLaTask.dto.RequestUserRegister;
-import ru.pasteger.mdlt.MaDeLaTask.exception.IncorrectLoginException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.IncorrectPasswordException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.IncorrectRequestBodyException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.UserAlreadyExistException;
+import ru.pasteger.mdlt.MaDeLaTask.exception.*;
 import ru.pasteger.mdlt.MaDeLaTask.repository.UserRepository;
 
 @Service
 public class ApiService {
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public ApiService(UserRepository userRepository) {this.userRepository = userRepository;}
 

@@ -4,10 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.pasteger.mdlt.MaDeLaTask.dto.RequestUserLogin;
 import ru.pasteger.mdlt.MaDeLaTask.dto.RequestUserRegister;
-import ru.pasteger.mdlt.MaDeLaTask.exception.IncorrectLoginException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.IncorrectPasswordException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.IncorrectRequestBodyException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.UserAlreadyExistException;
+import ru.pasteger.mdlt.MaDeLaTask.exception.*;
 import ru.pasteger.mdlt.MaDeLaTask.service.ApiService;
 
 @RestController
