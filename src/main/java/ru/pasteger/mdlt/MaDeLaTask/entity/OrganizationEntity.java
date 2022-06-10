@@ -8,6 +8,7 @@ public class OrganizationEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String name;
+    private String fullName;
     private String inn;
     private String kpp;
     private String address;
@@ -20,6 +21,8 @@ public class OrganizationEntity {
     public void setId(Long id) {this.id = id;}
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
+    public String getFullName() {return fullName;}
+    public void setFullName(String fullName) {this.fullName = fullName;}
     public String getInn() {return inn;}
     public void setInn(String inn) {this.inn = inn;}
     public String getKpp() {return kpp;}
