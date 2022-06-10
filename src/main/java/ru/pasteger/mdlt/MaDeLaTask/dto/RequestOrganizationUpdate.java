@@ -2,7 +2,8 @@ package ru.pasteger.mdlt.MaDeLaTask.dto;
 
 import ru.pasteger.mdlt.MaDeLaTask.entity.OrganizationEntity;
 
-public class RequestOrganizationSave {
+public class RequestOrganizationUpdate {
+    private Long id;
     private String name;
     private String fullName;
     private String inn;
@@ -11,23 +12,40 @@ public class RequestOrganizationSave {
     private String phone;
     private Boolean isActive;
 
-    public RequestOrganizationSave() {}
+    public RequestOrganizationUpdate() {}
 
-    public OrganizationEntity toEntity(){
+    public OrganizationEntity toEntity(OrganizationEntity inspector){
         OrganizationEntity organizationEntity = new OrganizationEntity();
-        organizationEntity.setName(name);
-        organizationEntity.setFullName(fullName);
-        organizationEntity.setInn(inn);
-        organizationEntity.setKpp(kpp);
-        organizationEntity.setAddress(address);
-        organizationEntity.setPhone(phone);
+        organizationEntity.setId(id);
+        if(name.equals(""))
+            organizationEntity.setName(inspector.getName());
+        else organizationEntity.setName(name);
+        if(fullName.equals(""))
+            organizationEntity.setFullName(inspector.getFullName());
+        else organizationEntity.setFullName(fullName);
+        if(inn.equals(""))
+            organizationEntity.setInn(inspector.getInn());
+        else organizationEntity.setInn(inn);
+        if(kpp.equals(""))
+            organizationEntity.setKpp(inspector.getKpp());
+        else organizationEntity.setKpp(kpp);
+        if(address.equals(""))
+            organizationEntity.setAddress(inspector.getAddress());
+        else organizationEntity.setAddress(address);
+        if(phone.equals(""))
+            organizationEntity.setPhone(inspector.getPhone());
+        else organizationEntity.setPhone(phone);
         organizationEntity.setActive(isActive);
 
         return organizationEntity;
     }
 
-    public Boolean checkNull(){
-        return (name.equals("") || fullName.equals("") || inn.equals("") || kpp.equals("") || address.equals("") || phone.equals(""));
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

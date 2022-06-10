@@ -2,9 +2,14 @@ package ru.pasteger.mdlt.MaDeLaTask.service;
 
 import org.springframework.stereotype.Service;
 import ru.pasteger.mdlt.MaDeLaTask.dto.RequestOrganizationSave;
+import ru.pasteger.mdlt.MaDeLaTask.dto.RequestOrganizationUpdate;
+import ru.pasteger.mdlt.MaDeLaTask.entity.OrganizationEntity;
 import ru.pasteger.mdlt.MaDeLaTask.exception.NotAllFieldsAreFilledInException;
 import ru.pasteger.mdlt.MaDeLaTask.exception.OrganizationAlreadyExistException;
+import ru.pasteger.mdlt.MaDeLaTask.exception.OrganizationNotExistException;
 import ru.pasteger.mdlt.MaDeLaTask.repository.OrganizationRepository;
+
+import java.util.Optional;
 
 @Service
 public class OrganizationService {
@@ -21,5 +26,14 @@ public class OrganizationService {
             throw new OrganizationAlreadyExistException("Organization already exist");
         }
         organizationRepository.save(organization.toEntity());
+    }
+
+    public void updateOrganization(RequestOrganizationUpdate organization)
+            throws NotAllFieldsAreFilledInException, OrganizationNotExistException {
+        Optional<OrganizationEntity> optionalOrganization = organizationRepository.findById(organization.getId());
+        if (optionalOrganization.isEmpty()){
+            throw new OrganizationNotExistException("Organization not exist");
+        }
+        organizationRepository.save(organization.toEntity(optionalOrganization.get()));
     }
 }

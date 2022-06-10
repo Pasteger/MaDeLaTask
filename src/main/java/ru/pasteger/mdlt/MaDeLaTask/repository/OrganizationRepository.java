@@ -5,4 +5,6 @@ import ru.pasteger.mdlt.MaDeLaTask.entity.OrganizationEntity;
 
 public interface OrganizationRepository extends CrudRepository<OrganizationEntity, Long> {
     OrganizationEntity findByFullName(String fullName);
+
+
 }
