@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Entity
 public class DocEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long code;
     private String name;
 

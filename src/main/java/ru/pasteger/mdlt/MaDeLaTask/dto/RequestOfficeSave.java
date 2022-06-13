@@ -19,9 +19,7 @@ public class RequestOfficeSave {
         return entity;
     }
 
-    public boolean checkNull(){
-        return (name.equals("") || address.equals("") || phone.equals(""));
-    }
+    public boolean checkNull(){return (name.equals("") || address.equals("") || phone.equals(""));}
 
     public String getName() {
         return name;

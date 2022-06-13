@@ -13,6 +13,7 @@ public class UserEntity {
     private String firstName;
     private String lastName;
     private String middleName;
+    private String position;
     private String phone;
     private Long docCode;
     private String docNumber;
@@ -36,6 +37,8 @@ public class UserEntity {
     public void setLastName(String lastName) {this.lastName = lastName;}
     public String getMiddleName() {return middleName;}
     public void setMiddleName(String middleName) {this.middleName = middleName;}
+    public String getPosition() {return position;}
+    public void setPosition(String position) {this.position = position;}
     public String getPhone() {return phone;}
     public void setPhone(String phone) {this.phone = phone;}
     public Long getDocCode() {return docCode;}
