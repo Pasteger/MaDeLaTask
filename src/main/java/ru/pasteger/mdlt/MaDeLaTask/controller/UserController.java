@@ -5,10 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.pasteger.mdlt.MaDeLaTask.dto.RequestUserSave;
-import ru.pasteger.mdlt.MaDeLaTask.dto.RequestUserUpdate;
+import ru.pasteger.mdlt.MaDeLaTask.dto.*;
 import ru.pasteger.mdlt.MaDeLaTask.exception.*;
 import ru.pasteger.mdlt.MaDeLaTask.service.UserService;
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/user")
@@ -39,6 +39,20 @@ public class UserController {
         catch (NotAllFieldsAreFilledInException | UserNotExistException exception){
             return ResponseEntity.badRequest().body(exception.getMessage());
         } catch (Exception exception){
+            return ResponseEntity.badRequest().body("Unknown exception");
+        }
+    }
+
+    @PostMapping("/list")
+    public ResponseEntity<?> getUsersList(@RequestBody RequestUsersListFilter filter){
+        try {
+            List<ResponseUserForList> users = userService.getUsersList(filter);
+            return ResponseEntity.ok().body(users);
+        }
+        catch (RequiredParameterIsNotFilledInException exception){
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+        catch (Exception exception){
             return ResponseEntity.badRequest().body("Unknown exception");
         }
     }

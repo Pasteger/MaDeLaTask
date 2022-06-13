@@ -40,4 +40,30 @@ public class ApiController {
             return ResponseEntity.badRequest().body("Unknown exception");
         }
     }
+
+    @GetMapping("/docs")
+    public ResponseEntity<?> docs(){
+        try {
+            return ResponseEntity.ok().body(apiService.getDocs());
+        }
+        catch (DatabaseIsEmptyException exception){
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+        catch (Exception exception){
+            return ResponseEntity.badRequest().body("Unknown exception");
+        }
+    }
+
+    @GetMapping("/countries")
+    public ResponseEntity<?> countries(){
+        try {
+            return ResponseEntity.ok().body(apiService.getCountries());
+        }
+        catch (DatabaseIsEmptyException exception){
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+        catch (Exception exception){
+            return ResponseEntity.badRequest().body("Unknown exception");
+        }
+    }
 }

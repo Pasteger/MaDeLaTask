@@ -15,6 +15,8 @@ public class RequestUserRegister {
         userEntity.setPassword(password);
         userEntity.setFirstName(name);
         userEntity.setIdentified(false);
+
+        userEntity.setOfficeId(0L);
         return userEntity;
     }
 

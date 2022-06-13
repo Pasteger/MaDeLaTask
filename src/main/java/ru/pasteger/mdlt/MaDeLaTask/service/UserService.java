@@ -1,17 +1,19 @@
 package ru.pasteger.mdlt.MaDeLaTask.service;
 
 import org.springframework.stereotype.Service;
-import ru.pasteger.mdlt.MaDeLaTask.dto.RequestUserSave;
-import ru.pasteger.mdlt.MaDeLaTask.dto.RequestUserUpdate;
+import ru.pasteger.mdlt.MaDeLaTask.dto.*;
 import ru.pasteger.mdlt.MaDeLaTask.entity.CountryEntity;
 import ru.pasteger.mdlt.MaDeLaTask.entity.DocEntity;
 import ru.pasteger.mdlt.MaDeLaTask.entity.UserEntity;
 import ru.pasteger.mdlt.MaDeLaTask.exception.NotAllFieldsAreFilledInException;
+import ru.pasteger.mdlt.MaDeLaTask.exception.RequiredParameterIsNotFilledInException;
 import ru.pasteger.mdlt.MaDeLaTask.exception.UserNotExistException;
 import ru.pasteger.mdlt.MaDeLaTask.repository.CountryRepository;
 import ru.pasteger.mdlt.MaDeLaTask.repository.DocRepository;
 import ru.pasteger.mdlt.MaDeLaTask.repository.UserRepository;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -51,5 +53,42 @@ public class UserService {
         userRepository.save((UserEntity) saved.get(0));
         docRepository.save((DocEntity) saved.get(1));
         countryRepository.save((CountryEntity) saved.get(2));
+    }
+
+    public List<ResponseUserForList> getUsersList(RequestUsersListFilter filter)
+            throws RequiredParameterIsNotFilledInException {
+        if(filter.getOfficeId() == null){
+            throw new RequiredParameterIsNotFilledInException("Required parameter is not filled in");
+        }
+        List<UserEntity> entityList = userRepository.findAllByOfficeId(filter.getOfficeId());
+
+        filtering(entityList, filter);
+
+        List<ResponseUserForList> responseList = new ArrayList<>();
+        for (UserEntity entity : entityList){
+            responseList.add(ResponseUserForList.toResponseUserForList(entity));
+        }
+        return responseList;
+    }
+
+    private void filtering(List<UserEntity> entityList, RequestUsersListFilter filter){
+        if(!filter.getFirstName().equals("")){
+            entityList.removeIf(entity -> !Objects.equals(entity.getFirstName(), filter.getFirstName()));
+        }
+        if(!filter.getLastName().equals("")){
+            entityList.removeIf(entity -> !Objects.equals(entity.getLastName(), filter.getLastName()));
+        }
+        if(!filter.getMiddleName().equals("")){
+            entityList.removeIf(entity -> !Objects.equals(entity.getMiddleName(), filter.getMiddleName()));
+        }
+        if(!filter.getPosition().equals("")){
+            entityList.removeIf(entity -> !Objects.equals(entity.getPosition(), filter.getPosition()));
+        }
+        if(filter.getDocCode() != null){
+            entityList.removeIf(entity -> !Objects.equals(entity.getDocCode(), filter.getDocCode()));
+        }
+        if(filter.getCitizenshipCode() != null){
+            entityList.removeIf(entity -> !Objects.equals(entity.getCitizenshipCode(), filter.getCitizenshipCode()));
+        }
     }
 }

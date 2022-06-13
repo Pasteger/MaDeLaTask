@@ -48,17 +48,21 @@ public class OrganizationService {
         }
         List<OrganizationEntity> entityList = organizationRepository.findAllByName(filter.getName());
 
-        if(filter.getIsActive() != null){
-            entityList.removeIf(entity -> entity.getActive() != filter.getIsActive());
-        }
-        if(!filter.getInn().equals("")){
-            entityList.removeIf(entity -> !entity.getInn().equals(filter.getInn()));
-        }
+        filtering(entityList, filter);
 
         List<ResponseOrganizationForList> responseList = new ArrayList<>();
         for (OrganizationEntity entity : entityList){
             responseList.add(ResponseOrganizationForList.toResponseOrganizationForList(entity));
         }
         return responseList;
+    }
+
+    private void filtering(List<OrganizationEntity> entityList, RequestOrganizationsListFilter filter){
+        if(filter.getIsActive() != null){
+            entityList.removeIf(entity -> entity.getActive() != filter.getIsActive());
+        }
+        if(!filter.getInn().equals("")){
+            entityList.removeIf(entity -> !entity.getInn().equals(filter.getInn()));
+        }
     }
 }

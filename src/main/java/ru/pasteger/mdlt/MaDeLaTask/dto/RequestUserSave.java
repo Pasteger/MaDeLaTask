@@ -21,18 +21,20 @@ public class RequestUserSave {
     public RequestUserSave() {}
 
     public UserEntity toEntity(){
-        UserEntity entity = new UserEntity();
-        entity.setFirstName(firstName);
-        entity.setLastName(secondName);
-        entity.setMiddleName(middleName);
-        entity.setPosition(position);
-        entity.setPhone(phone);
-        entity.setDocCode(docCode);
-        entity.setDocNumber(docNumber);
-        entity.setDocDate(docDate);
-        entity.setCitizenshipCode(citizenshipCode);
-        entity.setIdentified(isIdentified);
-        return entity;
+        UserEntity userEntity = new UserEntity();
+        userEntity.setFirstName(firstName);
+        userEntity.setLastName(secondName);
+        userEntity.setMiddleName(middleName);
+        userEntity.setPosition(position);
+        userEntity.setPhone(phone);
+        userEntity.setDocCode(docCode);
+        userEntity.setDocNumber(docNumber);
+        userEntity.setDocDate(docDate);
+        userEntity.setCitizenshipCode(citizenshipCode);
+        userEntity.setIdentified(isIdentified);
+
+        userEntity.setOfficeId(0L);
+        return userEntity;
     }
 
     public DocEntity getDocEntity(){
