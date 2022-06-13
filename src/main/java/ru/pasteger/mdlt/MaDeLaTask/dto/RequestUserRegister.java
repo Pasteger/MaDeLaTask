@@ -14,6 +14,7 @@ public class RequestUserRegister {
         userEntity.setLogin(login);
         userEntity.setPassword(password);
         userEntity.setFirstName(name);
+        userEntity.setIdentified(false);
         return userEntity;
     }
 

@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 public class OfficeEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private Long orgId;
     private String name;
@@ -24,6 +25,6 @@ public class OfficeEntity {
     public void setAddress(String address) {this.address = address;}
     public String getPhone() {return phone;}
     public void setPhone(String phone) {this.phone = phone;}
-    public Boolean getActive() {return isActive;}
-    public void setActive(Boolean active) {isActive = active;}
+    public Boolean getIsActive() {return isActive;}
+    public void setIsActive(Boolean active) {isActive = active;}
 }

@@ -7,10 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.pasteger.mdlt.MaDeLaTask.dto.RequestOrganizationSave;
 import ru.pasteger.mdlt.MaDeLaTask.dto.RequestOrganizationUpdate;
+import ru.pasteger.mdlt.MaDeLaTask.dto.RequestOrganizationsListFilter;
+import ru.pasteger.mdlt.MaDeLaTask.dto.ResponseOrganizationForList;
 import ru.pasteger.mdlt.MaDeLaTask.exception.NotAllFieldsAreFilledInException;
 import ru.pasteger.mdlt.MaDeLaTask.exception.OrganizationAlreadyExistException;
 import ru.pasteger.mdlt.MaDeLaTask.exception.OrganizationNotExistException;
+import ru.pasteger.mdlt.MaDeLaTask.exception.RequiredParameterIsNotFilledInException;
 import ru.pasteger.mdlt.MaDeLaTask.service.OrganizationService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/organization")
@@ -41,6 +45,20 @@ public class OrganizationController {
         catch (NotAllFieldsAreFilledInException | OrganizationNotExistException exception){
             return ResponseEntity.badRequest().body(exception.getMessage());
         } catch (Exception exception){
+            return ResponseEntity.badRequest().body("Unknown exception");
+        }
+    }
+
+    @PostMapping("/list")
+    public ResponseEntity<?> getOrganizationsList(@RequestBody RequestOrganizationsListFilter filter){
+        try {
+            List<ResponseOrganizationForList> organizations = organizationService.getOrganizationsList(filter);
+            return ResponseEntity.ok().body(organizations);
+        }
+        catch (RequiredParameterIsNotFilledInException exception){
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+        catch (Exception exception){
             return ResponseEntity.badRequest().body("Unknown exception");
         }
     }
