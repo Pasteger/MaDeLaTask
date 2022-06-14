@@ -1,6 +1,7 @@
 package ru.pasteger.mdlt.MaDeLaTask.dto;
 
 import ru.pasteger.mdlt.MaDeLaTask.entity.UserEntity;
+import java.util.Random;
 
 public class RequestUserRegister {
     private String login;
@@ -16,8 +17,32 @@ public class RequestUserRegister {
         userEntity.setFirstName(name);
         userEntity.setIdentified(false);
 
+        userEntity.setActivationCode(generateActivationCode());
+
         userEntity.setOfficeId(0L);
         return userEntity;
+    }
+
+    private String generateActivationCode(){
+        Random random = new Random();
+        StringBuilder code = new StringBuilder();
+        for (int i = 0; i < 10; i++){
+            switch (random.nextInt(4)) {
+                case 0:
+                    code.append(Character.toChars(57 - random.nextInt(10)));
+                    break;
+                case 1:
+                    code.append(Character.toChars(90 - random.nextInt(26)));
+                    break;
+                case 2:
+                    code.append(Character.toChars(122 - random.nextInt(26)));
+                    break;
+                case 3:
+                    code.append(Character.toChars(38 - random.nextInt(4)));
+                    break;
+            }
+        }
+        return code.toString();
     }
 
     public String getLogin() {

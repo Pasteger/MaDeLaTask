@@ -20,6 +20,7 @@ public class UserEntity {
     private String docDate;
     private Long citizenshipCode;
     private Boolean isIdentified;
+    private String activationCode;
 
     public UserEntity() {}
 
@@ -51,4 +52,6 @@ public class UserEntity {
     public void setCitizenshipCode(Long citizenshipCode) {this.citizenshipCode = citizenshipCode;}
     public Boolean getIdentified() {return isIdentified;}
     public void setIdentified(Boolean identified) {isIdentified = identified;}
+    public String getActivationCode() {return activationCode;}
+    public void setActivationCode(String activationCode) {this.activationCode = activationCode;}
 }

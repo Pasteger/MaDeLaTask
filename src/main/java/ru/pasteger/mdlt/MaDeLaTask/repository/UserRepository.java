@@ -12,4 +12,6 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
     UserEntity findByLoginAndPassword(String login, String password);
 
     List<UserEntity> findAllByOfficeId(Long officeId);
+
+    UserEntity findByActivationCode(String code);
 }

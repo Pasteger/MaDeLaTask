@@ -5,6 +5,7 @@ import ru.pasteger.mdlt.MaDeLaTask.dto.RequestUserLogin;
 import ru.pasteger.mdlt.MaDeLaTask.dto.RequestUserRegister;
 import ru.pasteger.mdlt.MaDeLaTask.entity.CountryEntity;
 import ru.pasteger.mdlt.MaDeLaTask.entity.DocEntity;
+import ru.pasteger.mdlt.MaDeLaTask.entity.UserEntity;
 import ru.pasteger.mdlt.MaDeLaTask.exception.*;
 import ru.pasteger.mdlt.MaDeLaTask.repository.CountryRepository;
 import ru.pasteger.mdlt.MaDeLaTask.repository.DocRepository;
@@ -41,6 +42,16 @@ public class ApiService {
         if(userRepository.findByLoginAndPassword(user.getLogin(), user.getPassword()) == null){
             throw new IncorrectPasswordException("Incorrect password");
         }
+    }
+
+    public void useActivationCode(String code){
+        UserEntity user = userRepository.findByActivationCode(code);
+        try {
+            user.setIdentified(true);
+            user.setActivationCode(null);
+            userRepository.save(user);
+        }
+        catch (Exception ignored){}
     }
 
     public List<DocEntity> getDocs() throws DatabaseIsEmptyException {

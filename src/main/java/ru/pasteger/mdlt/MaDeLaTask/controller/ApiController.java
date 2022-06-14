@@ -41,6 +41,11 @@ public class ApiController {
         }
     }
 
+    @GetMapping("/activation")
+    public void activation(@RequestParam("code") String code){
+        apiService.useActivationCode(code);
+    }
+
     @GetMapping("/docs")
     public ResponseEntity<?> docs(){
         try {
