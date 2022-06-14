@@ -2,15 +2,14 @@ package ru.pasteger.mdlt.MaDeLaTask.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import ru.pasteger.mdlt.MaDeLaTask.dto.RequestOfficeSave;
-import ru.pasteger.mdlt.MaDeLaTask.dto.RequestOfficeUpdate;
+import org.springframework.web.bind.annotation.*;
+import ru.pasteger.mdlt.MaDeLaTask.dto.*;
 import ru.pasteger.mdlt.MaDeLaTask.exception.NotAllFieldsAreFilledInException;
 import ru.pasteger.mdlt.MaDeLaTask.exception.OfficeAlreadyExistException;
 import ru.pasteger.mdlt.MaDeLaTask.exception.OfficeNotExistException;
+import ru.pasteger.mdlt.MaDeLaTask.exception.RequiredParameterIsNotFilledInException;
 import ru.pasteger.mdlt.MaDeLaTask.service.OfficeService;
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/office")
@@ -42,6 +41,28 @@ public class OfficeController {
             return ResponseEntity.badRequest().body(exception.getMessage());
         } catch (Exception exception){
             return ResponseEntity.badRequest().body("Unknown exception");
+        }
+    }
+
+    @PostMapping("/list/{orgId}")
+    public ResponseEntity<?> getOfficeList(@PathVariable("orgId") Long orgId, @RequestBody RequestOfficeListFilter filter){
+        try {
+            List<ResponseOfficeForList> organizations = officeService.getOfficeList(orgId, filter);
+            return ResponseEntity.ok().body(organizations);
+        }
+        catch (Exception exception){
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOffice(@PathVariable("id") Long id){
+        try {
+            ResponseOffice office = officeService.getOffice(id);
+            return ResponseEntity.ok().body(office);
+        }
+        catch (Exception exception){
+            return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }
 }

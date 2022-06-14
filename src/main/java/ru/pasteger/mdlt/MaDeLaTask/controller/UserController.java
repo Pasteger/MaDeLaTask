@@ -2,9 +2,7 @@ package ru.pasteger.mdlt.MaDeLaTask.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.pasteger.mdlt.MaDeLaTask.dto.*;
 import ru.pasteger.mdlt.MaDeLaTask.exception.*;
 import ru.pasteger.mdlt.MaDeLaTask.service.UserService;
@@ -54,6 +52,17 @@ public class UserController {
         }
         catch (Exception exception){
             return ResponseEntity.badRequest().body("Unknown exception");
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUser(@PathVariable("id") Long id){
+        try {
+            ResponseUser user = userService.getUser(id);
+            return ResponseEntity.ok().body(user);
+        }
+        catch (Exception exception){
+            return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }
 }

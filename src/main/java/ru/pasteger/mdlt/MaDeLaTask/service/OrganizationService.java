@@ -1,10 +1,7 @@
 package ru.pasteger.mdlt.MaDeLaTask.service;
 
 import org.springframework.stereotype.Service;
-import ru.pasteger.mdlt.MaDeLaTask.dto.RequestOrganizationSave;
-import ru.pasteger.mdlt.MaDeLaTask.dto.RequestOrganizationUpdate;
-import ru.pasteger.mdlt.MaDeLaTask.dto.RequestOrganizationsListFilter;
-import ru.pasteger.mdlt.MaDeLaTask.dto.ResponseOrganizationForList;
+import ru.pasteger.mdlt.MaDeLaTask.dto.*;
 import ru.pasteger.mdlt.MaDeLaTask.entity.OrganizationEntity;
 import ru.pasteger.mdlt.MaDeLaTask.exception.NotAllFieldsAreFilledInException;
 import ru.pasteger.mdlt.MaDeLaTask.exception.OrganizationAlreadyExistException;
@@ -55,6 +52,12 @@ public class OrganizationService {
             responseList.add(ResponseOrganizationForList.toResponseOrganizationForList(entity));
         }
         return responseList;
+    }
+
+    public ResponseOrganization getOrganization(Long id) throws OrganizationNotExistException {
+        Optional<OrganizationEntity> organization = organizationRepository.findById(id);
+        if(organization.isEmpty()) throw new OrganizationNotExistException("Organization not exist");
+        return ResponseOrganization.toResponseOrganization(organization.get());
     }
 
     private void filtering(List<OrganizationEntity> entityList, RequestOrganizationsListFilter filter){

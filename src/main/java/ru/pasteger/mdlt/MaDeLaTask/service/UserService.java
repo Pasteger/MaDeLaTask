@@ -71,6 +71,26 @@ public class UserService {
         return responseList;
     }
 
+    public ResponseUser getUser(Long id) throws Exception {
+        Optional<UserEntity> userOptional = userRepository.findById(id);
+        if(userOptional.isEmpty()) throw new Exception("User not exist");
+        UserEntity user = userOptional.get();
+        DocEntity doc;
+        CountryEntity country;
+        try {
+            Optional<DocEntity> optionalDoc = docRepository.findById(user.getDocCode());
+            doc = optionalDoc.orElseGet(DocEntity::new);
+        }
+        catch (Exception exception){doc = new DocEntity();}
+        try {
+            Optional<CountryEntity> optionalCountry = countryRepository.findById(user.getCitizenshipCode());
+            country = optionalCountry.orElseGet(CountryEntity::new);
+        }
+        catch (Exception exception){country = new CountryEntity();}
+
+        return ResponseUser.toResponseUser(user, doc, country);
+    }
+
     private void filtering(List<UserEntity> entityList, RequestUsersListFilter filter){
         if(!filter.getFirstName().equals("")){
             entityList.removeIf(entity -> !Objects.equals(entity.getFirstName(), filter.getFirstName()));
