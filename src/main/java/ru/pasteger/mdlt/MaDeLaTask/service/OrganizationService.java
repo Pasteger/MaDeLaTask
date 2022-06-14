@@ -3,10 +3,6 @@ package ru.pasteger.mdlt.MaDeLaTask.service;
 import org.springframework.stereotype.Service;
 import ru.pasteger.mdlt.MaDeLaTask.dto.*;
 import ru.pasteger.mdlt.MaDeLaTask.entity.OrganizationEntity;
-import ru.pasteger.mdlt.MaDeLaTask.exception.NotAllFieldsAreFilledInException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.OrganizationAlreadyExistException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.OrganizationNotExistException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.RequiredParameterIsNotFilledInException;
 import ru.pasteger.mdlt.MaDeLaTask.repository.OrganizationRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,30 +14,27 @@ public class OrganizationService {
 
     public OrganizationService(OrganizationRepository organizationRepository) {this.organizationRepository = organizationRepository;}
 
-    public void saveOrganization(RequestOrganizationSave organization)
-            throws NotAllFieldsAreFilledInException, OrganizationAlreadyExistException {
+    public void saveOrganization(RequestOrganizationSave organization) throws Exception {
         if (organization.checkNull()) {
-            throw new NotAllFieldsAreFilledInException("Not all fields are filled in");
+            throw new Exception("Not all fields are filled in");
         }
         if (organizationRepository.findByFullName(organization.getFullName()) != null){
-            throw new OrganizationAlreadyExistException("Organization already exist");
+            throw new Exception("Organization already exist");
         }
         organizationRepository.save(organization.toEntity());
     }
 
-    public void updateOrganization(RequestOrganizationUpdate organization)
-            throws NotAllFieldsAreFilledInException, OrganizationNotExistException {
+    public void updateOrganization(RequestOrganizationUpdate organization) throws Exception {
         Optional<OrganizationEntity> optionalOrganization = organizationRepository.findById(organization.getId());
         if (optionalOrganization.isEmpty()){
-            throw new OrganizationNotExistException("Organization not exist");
+            throw new Exception("Organization not exist");
         }
         organizationRepository.save(organization.toEntity(optionalOrganization.get()));
     }
 
-    public List<ResponseOrganizationForList> getOrganizationsList(RequestOrganizationsListFilter filter)
-            throws RequiredParameterIsNotFilledInException {
+    public List<ResponseOrganizationForList> getOrganizationsList(RequestOrganizationsListFilter filter) throws Exception {
         if(filter.getName().equals("")){
-            throw new RequiredParameterIsNotFilledInException("Required parameter is not filled in");
+            throw new Exception("Required parameter is not filled in");
         }
         List<OrganizationEntity> entityList = organizationRepository.findAllByName(filter.getName());
 
@@ -54,9 +47,9 @@ public class OrganizationService {
         return responseList;
     }
 
-    public ResponseOrganization getOrganization(Long id) throws OrganizationNotExistException {
+    public ResponseOrganization getOrganization(Long id) throws Exception {
         Optional<OrganizationEntity> organization = organizationRepository.findById(id);
-        if(organization.isEmpty()) throw new OrganizationNotExistException("Organization not exist");
+        if(organization.isEmpty()) throw new Exception("Organization not exist");
         return ResponseOrganization.toResponseOrganization(organization.get());
     }
 

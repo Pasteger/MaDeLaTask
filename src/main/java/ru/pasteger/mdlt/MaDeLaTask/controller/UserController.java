@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.pasteger.mdlt.MaDeLaTask.dto.*;
-import ru.pasteger.mdlt.MaDeLaTask.exception.*;
 import ru.pasteger.mdlt.MaDeLaTask.service.UserService;
 import java.util.List;
 
@@ -21,10 +20,8 @@ public class UserController {
             userService.saveUser(user);
             return ResponseEntity.ok().body("success");
         }
-        catch (NotAllFieldsAreFilledInException exception){
+        catch (Exception exception){
             return ResponseEntity.badRequest().body(exception.getMessage());
-        } catch (Exception exception){
-            return ResponseEntity.badRequest().body("Unknown exception");
         }
     }
 
@@ -34,10 +31,8 @@ public class UserController {
             userService.updateUser(user);
             return ResponseEntity.ok().body("success");
         }
-        catch (NotAllFieldsAreFilledInException | UserNotExistException exception){
+        catch (Exception exception){
             return ResponseEntity.badRequest().body(exception.getMessage());
-        } catch (Exception exception){
-            return ResponseEntity.badRequest().body("Unknown exception");
         }
     }
 
@@ -47,11 +42,8 @@ public class UserController {
             List<ResponseUserForList> users = userService.getUsersList(filter);
             return ResponseEntity.ok().body(users);
         }
-        catch (RequiredParameterIsNotFilledInException exception){
-            return ResponseEntity.badRequest().body(exception.getMessage());
-        }
         catch (Exception exception){
-            return ResponseEntity.badRequest().body("Unknown exception");
+            return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }
 

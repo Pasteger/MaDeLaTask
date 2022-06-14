@@ -3,10 +3,6 @@ package ru.pasteger.mdlt.MaDeLaTask.service;
 import org.springframework.stereotype.Service;
 import ru.pasteger.mdlt.MaDeLaTask.dto.*;
 import ru.pasteger.mdlt.MaDeLaTask.entity.OfficeEntity;
-import ru.pasteger.mdlt.MaDeLaTask.exception.NotAllFieldsAreFilledInException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.OfficeAlreadyExistException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.OfficeNotExistException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.RequiredParameterIsNotFilledInException;
 import ru.pasteger.mdlt.MaDeLaTask.repository.OfficeRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,31 +15,29 @@ public class OfficeService {
 
     public OfficeService(OfficeRepository officeRepository) {this.officeRepository = officeRepository;}
 
-    public void saveOffice(RequestOfficeSave office)
-            throws NotAllFieldsAreFilledInException, OfficeAlreadyExistException {
+    public void saveOffice(RequestOfficeSave office) throws Exception {
         if (office.checkNull()) {
-            throw new NotAllFieldsAreFilledInException("Not all fields are filled in");
+            throw new Exception("Not all fields are filled in");
         }
         if (officeRepository.findByName(office.getName()) != null){
-            throw new OfficeAlreadyExistException("Office already exist");
+            throw new Exception("Office already exist");
         }
         officeRepository.save(office.toEntity());
     }
 
     public void updateOffice(RequestOfficeUpdate office)
-            throws NotAllFieldsAreFilledInException, OfficeNotExistException {
+            throws Exception {
         Optional<OfficeEntity> optionalOffice = officeRepository.findById(office.getId());
         if (optionalOffice.isEmpty()){
-            throw new OfficeNotExistException("Office not exist");
+            throw new Exception("Office not exist");
         }
         officeRepository.save(office.toEntity(optionalOffice.get()));
     }
 
-    public List<ResponseOfficeForList> getOfficeList(Long orgId, RequestOfficeListFilter filter)
-            throws RequiredParameterIsNotFilledInException {
+    public List<ResponseOfficeForList> getOfficeList(Long orgId, RequestOfficeListFilter filter) throws Exception {
         filter.setOrgId(orgId);
         if(filter.getOrgId() == null){
-            throw new RequiredParameterIsNotFilledInException("Required parameter is not filled in");
+            throw new Exception("Required parameter is not filled in");
         }
         List<OfficeEntity> entityList = officeRepository.findAllByOrgId(orgId);
 

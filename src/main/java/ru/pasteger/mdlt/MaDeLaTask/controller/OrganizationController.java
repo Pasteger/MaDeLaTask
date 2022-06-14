@@ -3,10 +3,6 @@ package ru.pasteger.mdlt.MaDeLaTask.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.pasteger.mdlt.MaDeLaTask.dto.*;
-import ru.pasteger.mdlt.MaDeLaTask.exception.NotAllFieldsAreFilledInException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.OrganizationAlreadyExistException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.OrganizationNotExistException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.RequiredParameterIsNotFilledInException;
 import ru.pasteger.mdlt.MaDeLaTask.service.OrganizationService;
 import java.util.List;
 
@@ -23,10 +19,8 @@ public class OrganizationController {
             organizationService.saveOrganization(organization);
             return ResponseEntity.ok().body("success");
         }
-        catch (NotAllFieldsAreFilledInException | OrganizationAlreadyExistException exception){
+        catch (Exception exception){
             return ResponseEntity.badRequest().body(exception.getMessage());
-        } catch (Exception exception){
-            return ResponseEntity.badRequest().body("Unknown exception");
         }
     }
 
@@ -36,10 +30,8 @@ public class OrganizationController {
             organizationService.updateOrganization(organization);
             return ResponseEntity.ok().body("success");
         }
-        catch (NotAllFieldsAreFilledInException | OrganizationNotExistException exception){
+        catch (Exception exception){
             return ResponseEntity.badRequest().body(exception.getMessage());
-        } catch (Exception exception){
-            return ResponseEntity.badRequest().body("Unknown exception");
         }
     }
 
@@ -49,11 +41,8 @@ public class OrganizationController {
             List<ResponseOrganizationForList> organizations = organizationService.getOrganizationsList(filter);
             return ResponseEntity.ok().body(organizations);
         }
-        catch (RequiredParameterIsNotFilledInException exception){
-            return ResponseEntity.badRequest().body(exception.getMessage());
-        }
         catch (Exception exception){
-            return ResponseEntity.badRequest().body("Unknown exception");
+            return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }
 
@@ -63,11 +52,8 @@ public class OrganizationController {
             ResponseOrganization organization = organizationService.getOrganization(id);
             return ResponseEntity.ok().body(organization);
         }
-        catch (OrganizationNotExistException exception){
-            return ResponseEntity.badRequest().body(exception.getMessage());
-        }
         catch (Exception exception){
-            return ResponseEntity.badRequest().body("Unknown exception");
+            return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }
 }

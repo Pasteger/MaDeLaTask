@@ -4,10 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.pasteger.mdlt.MaDeLaTask.dto.*;
-import ru.pasteger.mdlt.MaDeLaTask.exception.NotAllFieldsAreFilledInException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.OfficeAlreadyExistException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.OfficeNotExistException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.RequiredParameterIsNotFilledInException;
 import ru.pasteger.mdlt.MaDeLaTask.service.OfficeService;
 import java.util.List;
 
@@ -24,10 +20,8 @@ public class OfficeController {
             officeService.saveOffice(office);
             return ResponseEntity.ok().body("success");
         }
-        catch (NotAllFieldsAreFilledInException | OfficeAlreadyExistException exception){
+        catch (Exception exception){
             return ResponseEntity.badRequest().body(exception.getMessage());
-        } catch (Exception exception){
-            return ResponseEntity.badRequest().body("Unknown exception");
         }
     }
 
@@ -37,10 +31,8 @@ public class OfficeController {
             officeService.updateOffice(office);
             return ResponseEntity.ok().body("success");
         }
-        catch (NotAllFieldsAreFilledInException | OfficeNotExistException exception){
+        catch (Exception exception){
             return ResponseEntity.badRequest().body(exception.getMessage());
-        } catch (Exception exception){
-            return ResponseEntity.badRequest().body("Unknown exception");
         }
     }
 

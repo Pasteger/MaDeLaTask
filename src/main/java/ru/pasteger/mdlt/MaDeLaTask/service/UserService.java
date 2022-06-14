@@ -5,9 +5,6 @@ import ru.pasteger.mdlt.MaDeLaTask.dto.*;
 import ru.pasteger.mdlt.MaDeLaTask.entity.CountryEntity;
 import ru.pasteger.mdlt.MaDeLaTask.entity.DocEntity;
 import ru.pasteger.mdlt.MaDeLaTask.entity.UserEntity;
-import ru.pasteger.mdlt.MaDeLaTask.exception.NotAllFieldsAreFilledInException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.RequiredParameterIsNotFilledInException;
-import ru.pasteger.mdlt.MaDeLaTask.exception.UserNotExistException;
 import ru.pasteger.mdlt.MaDeLaTask.repository.CountryRepository;
 import ru.pasteger.mdlt.MaDeLaTask.repository.DocRepository;
 import ru.pasteger.mdlt.MaDeLaTask.repository.UserRepository;
@@ -27,23 +24,21 @@ public class UserService {
         this.countryRepository = countryRepository;
     }
 
-    public void saveUser(RequestUserSave user)
-            throws NotAllFieldsAreFilledInException {
+    public void saveUser(RequestUserSave user) throws Exception {
         if (user.checkNull()) {
-            throw new NotAllFieldsAreFilledInException("Not all fields are filled in");
+            throw new Exception("Not all fields are filled in");
         }
         userRepository.save(user.toEntity());
         docRepository.save(user.getDocEntity());
         countryRepository.save(user.getCountryEntity());
     }
 
-    public void updateUser(RequestUserUpdate user)
-            throws NotAllFieldsAreFilledInException, UserNotExistException {
+    public void updateUser(RequestUserUpdate user) throws Exception {
         Optional<UserEntity> optionalUser = userRepository.findById(user.getId());
         Optional<DocEntity> optionalDoc = docRepository.findById(user.getDocCode());
         Optional<CountryEntity> optionalCountry = countryRepository.findById(user.getCitizenshipCode());
         if (optionalUser.isEmpty()){
-            throw new UserNotExistException("User not exist");
+            throw new Exception("User not exist");
         }
         UserEntity userEntity = optionalUser.get();
         DocEntity docEntity = optionalDoc.orElseGet(DocEntity::new);
@@ -55,10 +50,9 @@ public class UserService {
         countryRepository.save((CountryEntity) saved.get(2));
     }
 
-    public List<ResponseUserForList> getUsersList(RequestUsersListFilter filter)
-            throws RequiredParameterIsNotFilledInException {
+    public List<ResponseUserForList> getUsersList(RequestUsersListFilter filter) throws Exception {
         if(filter.getOfficeId() == null){
-            throw new RequiredParameterIsNotFilledInException("Required parameter is not filled in");
+            throw new Exception("Required parameter is not filled in");
         }
         List<UserEntity> entityList = userRepository.findAllByOfficeId(filter.getOfficeId());
 
