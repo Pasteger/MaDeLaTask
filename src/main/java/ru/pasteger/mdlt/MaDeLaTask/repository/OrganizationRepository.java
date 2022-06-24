@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface OrganizationRepository extends CrudRepository<OrganizationEntity, Long> {
     OrganizationEntity findByFullName(String fullName);
-    List<OrganizationEntity> findAllByName(String name);
+    List<OrganizationEntity> findAllByNameLike(String name);
 }

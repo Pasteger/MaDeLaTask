@@ -36,7 +36,7 @@ public class OrganizationService {
         if(filter.getName().equals("")){
             throw new Exception("Required parameter is not filled in");
         }
-        List<OrganizationEntity> entityList = organizationRepository.findAllByName(filter.getName());
+        List<OrganizationEntity> entityList = organizationRepository.findAllByNameLike("%" + filter.getName() + "%");
 
         filtering(entityList, filter);
 
